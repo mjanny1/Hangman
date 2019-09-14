@@ -1,0 +1,19 @@
+Members:
+
+
+
+
+Code:
+Java
+
+Agile Project Management:
+Trello provides a good way to progress our user stories. I made a project that should help us figure out who's working what.
+	Invite Link:   https://trello.com/invite/b/s9n446IR/fb5575f5a8d6d72102c08b6d30e5e402/hangman-project
+	Website Link:  https://trello.com/b/s9n446IR/hangman-project
+
+Version Control:
+GitHub.com
+	Important git info:
+		Create a New Branch both locally and on Github based on what you're working
+		Our working baseline branch will be called 'master'
+		Once your code is working, merge it into master by creating a pull request on Github.com
