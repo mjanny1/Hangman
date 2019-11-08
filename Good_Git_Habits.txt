@@ -1,0 +1,19 @@
+When using git, it is best to create individual branches for the task you want to complete and then merge that branch into the main directory.
+
+HOW TO:
+On the Github website, there is an option to create a new branch.
+Name the branch whatever you want.
+Then go to your terminal.
+If you want to make a new repository, then do a git clone. If you already have a repository cloned than just perform a 'git pull'
+
+Now in the repository, perform a 'git checkout -b new_branch_name'
+You can make sure you're in your new branch by running a 'git branch'
+Once you're in the right branch, perform a 'git branch --set-upstream-to=origin/new_branch_name new_branch_name'
+Then you can start coding and making changes to this branch.
+Commit and push whenever you add a new feature or you make progress that works when you tested.
+
+Then when you want to add your changes to our actual working branch (master), do the following:
+Perform a 'git pull'
+Perform a 'git merge origin/working' to get everyone else's new changes that were in master
+Then log on to the github website and open a pull request for your branch.
+Then the whole team can review your changes, and once reviewed, we'll add it to the baseline.
