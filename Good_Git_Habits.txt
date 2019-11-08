@@ -14,6 +14,6 @@ Commit and push whenever you add a new feature or you make progress that works w
 
 Then when you want to add your changes to our actual working branch (master), do the following:
 Perform a 'git pull'
-Perform a 'git merge origin/working' to get everyone else's new changes that were in master
+Perform a 'git merge origin/master' to get everyone else's new changes that were in master
 Then log on to the github website and open a pull request for your branch.
 Then the whole team can review your changes, and once reviewed, we'll add it to the baseline.
