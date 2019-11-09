@@ -2,6 +2,12 @@ package com.techtycoons.controllers;
 
 import java.util.List;
 
+/*
+ * Gameplay Functions Class is used for repeated game functions like:
+ * guessing a word
+ * guessing a letter
+ */
+
 public class GameplayFunctions {
 	
 	private String word;

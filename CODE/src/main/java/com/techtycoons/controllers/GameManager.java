@@ -44,7 +44,7 @@ public class GameManager {
 	
 	/*
 	 * Method: pickWord()
-	 * PLACEHOLDER FOR METHOD TO PICK OUR WORD FROM THE LIST
+	 * PLACEHOLDER FOR METHOD TO PICK OUR WORD RANDOMLY FROM THE LIST
 	 */
 	
 	
@@ -53,6 +53,8 @@ public class GameManager {
 	 * Game Manager Main function
 	 */
 	public static void main(String[] args) {
+		//String word = pickWord();
+		String word = "hello"; //for test purposes now.
 		
 	}
 
