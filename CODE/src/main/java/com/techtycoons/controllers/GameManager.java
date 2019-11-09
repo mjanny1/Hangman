@@ -73,6 +73,16 @@ public class GameManager {
 	}
 	
 	/*
+	 * Method: fillInTheBlanks
+	 * Used to fill in the blanks when a letter is correctly guessed
+	 * 
+	 * Parameters: List<String>: list of integers of places to fill
+	 */
+//	static String fillInTheBlanks(String blankedWord, List<Integer> spots) {
+//		
+//	}
+	
+	/*
 	 * Method: getWordWithGuesses
 	 * Used by the controller to get the filled out word with guesses
 	 */
