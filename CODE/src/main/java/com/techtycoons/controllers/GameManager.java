@@ -4,6 +4,7 @@ import com.techtycoons.controllers.GameplayFunctions;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+import java.lang.StringBuilder;
 
 /*
  * GameManager Class
@@ -16,6 +17,7 @@ public class GameManager {
 	String letters_guessed;
 	String[] words_guessed;
 	static Queue<String> guessQueue;
+	static String word_with_guesses;
 	
 	
 	/*
@@ -27,6 +29,7 @@ public class GameManager {
         this.letters_guessed   = null;
         this.words_guessed = new String[6]; //Max amount of word guesses can only be 6
         this.guessQueue = new LinkedList<>();
+        this.word_with_guesses = null;
 	}
 	
 	/*
@@ -56,6 +59,28 @@ public class GameManager {
 	}
 	
 	/*
+	 * Method: makeBlankWord
+	 * Used to create a Blank word matching the length of the original word
+	 * 
+	 * Parameters: String: Word we are playing with
+	 */
+	static String makeBlankWord(String word) {
+		StringBuilder blanks = new StringBuilder(null);
+		for (int i =0 ; i < word.length(); i++) {
+			blanks.append("_");
+		}
+		return blanks.toString();
+	}
+	
+	/*
+	 * Method: getWordWithGuesses
+	 * Used by the controller to get the filled out word with guesses
+	 */
+	String getWordWithGuesses() {
+		return word_with_guesses;
+	}
+	
+	/*
 	 * Method: pickWord()
 	 * PLACEHOLDER FOR METHOD TO PICK OUR WORD RANDOMLY FROM OUR TEXT FILE LIST
 	 */
@@ -68,6 +93,7 @@ public class GameManager {
 	public static void main(String[] args) {
 		//String word = pickWord();
 		String word = "hello"; //for test purposes now.
+		word_with_guesses = makeBlankWord(word);
 		GameplayFunctions wordActions = new GameplayFunctions (word);
 		
 		Boolean still_playing = true;
