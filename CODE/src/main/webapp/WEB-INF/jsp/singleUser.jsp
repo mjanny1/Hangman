@@ -1,46 +1,63 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page isELIgnored="false" %>
 <html>
-<body bgcolor="gray">
-<h1 style="color: blue;margin-bottom: 20px;" align="center">Welcome To HangMan,Lets Start The Game </h1>
-<div style="border: 1px solid black" title="Hello" align="center">
-<br/>
-<button onclick="showDiv()">Start Game</button>
-</br>
-</br>
-<button>End Game</button>
-</br>
-</br>
-<button style="width: 80px;">Help</button>
-</br></br>
-</div>
-<script type="text/javascript">
-function showDiv()
-{
-document.getElementById('welcomeDiv').style.display = "block";
+<head>
+<style>
+     <%@ include file="../css/menu.css"%>
+</style>
+<script>
+/* When the user clicks on the button, 
+toggle between hiding and showing the dropdown content */
+function myFunction() {
+  document.getElementById("myDropdown").classList.toggle("show");
+}
+
+// Close the dropdown if the user clicks outside of it
+window.onclick = function(event) {
+  if (!event.target.matches('.dropbtn')) {
+    var dropdowns = document.getElementsByClassName("dropdown-content");
+    var i;
+    for (i = 0; i < dropdowns.length; i++) {
+      var openDropdown = dropdowns[i];
+      if (openDropdown.classList.contains('show')) {
+        openDropdown.classList.remove('show');
+      }
+    }
+  }
 }
 </script>
+</head>
+<body bgcolor="green">
+<div class="dropdown">
+  <button onclick="myFunction()" class="dropbtn">Main Menu</button>
+  <div id="myDropdown" class="dropdown-content">
+    <a href="#home">Home</a>
+    <a href="#about">Help</a>
+    <a href="#contact">Quit</a>
+  </div>
+</div>
+<form action="/HangManTechTycoons/guessLetterOrWord.html" method="post">
+<h1 style="color: orange;" align="center">Welcome To HangMan,Lets Start The Game </h1>
+<h2 style="color: white" align="center">Single User Mode</h2>
+<div align="center" style="border: 1px solid white;">
+<h2>Score Board:</h2><textarea rows="4" cols="10" disabled="disabled"></textarea></br></br></div>
 
-<div style="border: 1px solid black;margin-top: 50px" align="center">
-<h3>Level Of Difficulty</h3>
-<a href="">Easy</a></br></br>
-<a href="">Medium</a></br></br>
-<a href="">Difficult</a>
+<div style="border: 1px solid white;margin-top: 20px;" title="Hello" align="center">
+<h3>Number Of Guess Left</h3><input type="text" value="" disabled="disabled">
+<h3>Wrong Guesses</h3><input type="text" value="" disabled="disabled"></br></br>
 </div>
 
-<div style="border: 1px solid black;margin-top: 50px;display: none" align="center"  id="welcomeDiv">
-<h3>Time Remaining:</h3>
-<h3>00:00</h3>
 
-<h4>Guess Word</h4><p>
-<input type="text" value=" " style="width: 10px">
-<input type="text" value=" " style="width: 10px">
-<input type="text" value=" " style="width: 10px">
-<input type="text" value=" " style="width: 10px">
-<input type="text" value=" " style="width: 10px">
-<input type="text" value=" " style="width: 10px">
+<div align="center" style="border: 1px solid white;margin-top: 20px;margin-bottom: 20px" >
+<h3>Guess Word:
+${word}</h3>
 
-</p>
 
+<input type="text" name="letterOrWord">
+&nbsp&nbsp&nbsp&nbsp&nbsp
+<input type="submit" style="background-color: orange;color: white;" value="Enter Guessed Letter/word" >
 </div>
+</form>
 
 
 
