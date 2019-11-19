@@ -4,6 +4,9 @@ import com.techtycoons.controllers.GameplayFunctions;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+
+import org.springframework.stereotype.Component;
+
 import java.lang.StringBuilder;
 
 /*
@@ -11,6 +14,7 @@ import java.lang.StringBuilder;
  * This class will be used to handle all game related details.
  * Will be used for both single player and multiplayer.
  */
+@Component
 public class GameManager {
 	int incorrect_guesses;
 	int correct_guesses;
@@ -64,13 +68,15 @@ public class GameManager {
 	 * 
 	 * Parameters: String: Word we are playing with
 	 */
-	static String makeBlankWord(String word) {
-		StringBuilder blanks = new StringBuilder(null);
+	 public String makeBlankWord(String word) {
+		StringBuilder blanks = new StringBuilder();
 		for (int i =0 ; i < word.length(); i++) {
-			blanks.append("_");
+			blanks.append("_ ");
 		}
 		return blanks.toString();
 	}
+	 
+	 
 	
 	/*
 	 * Method: fillInTheBlanks
@@ -100,7 +106,7 @@ public class GameManager {
 	 * Main
 	 * Game Manager Main function
 	 */
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		//String word = pickWord();
 		String word = "hello"; //for test purposes now.
 		word_with_guesses = makeBlankWord(word);
@@ -131,6 +137,6 @@ public class GameManager {
 			}
 		}
 		
-	}
+	}*/
 
 }
