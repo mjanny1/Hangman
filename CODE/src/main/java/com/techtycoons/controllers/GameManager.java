@@ -1,12 +1,14 @@
 package com.techtycoons.controllers;
 
 import com.techtycoons.controllers.GameplayFunctions;
+import com.techtycoons.services.HangManPlayerServiceImpl;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.lang.StringBuilder;
 
 /*
@@ -16,8 +18,7 @@ import java.lang.StringBuilder;
  */
 @Component
 public class GameManager {
-	int incorrect_guesses;
-	int correct_guesses;
+	static int incorrect_guesses;
 	String letters_guessed;
 	String[] words_guessed;
 	static Queue<String> guessQueue;
@@ -29,7 +30,6 @@ public class GameManager {
 	 */
 	GameManager() {
         this.incorrect_guesses = 0;
-        this.correct_guesses   = 0;
         this.letters_guessed   = null;
         this.words_guessed = new String[6]; //Max amount of word guesses can only be 6
         this.guessQueue = new LinkedList<>();
@@ -68,7 +68,7 @@ public class GameManager {
 	 * 
 	 * Parameters: String: Word we are playing with
 	 */
-	 public String makeBlankWord(String word) {
+	 public static String makeBlankWord(String word) {
 		StringBuilder blanks = new StringBuilder();
 		for (int i =0 ; i < word.length(); i++) {
 			blanks.append("_ ");
@@ -84,9 +84,16 @@ public class GameManager {
 	 * 
 	 * Parameters: List<String>: list of integers of places to fill
 	 */
-//	static String fillInTheBlanks(String blankedWord, List<Integer> spots) {
-//		
-//	}
+	static String fillInTheBlanks(String blankedWord, String word, List<Integer> spots) {
+		StringBuilder filledInWord = new StringBuilder(blankedWord);
+		for (int i=0; i<spots.size(); i++) {
+				int numberPlace = spots.get(i);
+				char letter = word.charAt(numberPlace);
+				filledInWord.setCharAt(numberPlace, letter);
+		}
+		String outString=filledInWord.toString();
+		return outString;
+	}
 	
 	/*
 	 * Method: getWordWithGuesses
@@ -96,47 +103,67 @@ public class GameManager {
 		return word_with_guesses;
 	}
 	
-	/*
-	 * Method: pickWord()
-	 * PLACEHOLDER FOR METHOD TO PICK OUR WORD RANDOMLY FROM OUR TEXT FILE LIST
-	 */
-	
 	
 	/*
 	 * Main
 	 * Game Manager Main function
 	 */
-	/*public static void main(String[] args) {
-		//String word = pickWord();
-		String word = "hello"; //for test purposes now.
-		word_with_guesses = makeBlankWord(word);
-		GameplayFunctions wordActions = new GameplayFunctions (word);
-		
-		Boolean still_playing = true;
-		Boolean did_you_win = false;
-		
-		while (still_playing) {
-			if (guessQueue.size() > 0) {
-				String guess = guessQueue.poll();
-				
-				//word guess
-				if (guess.length() > 1) {
-					did_you_win = wordActions.guessWord(guess);
-				}
-				//letter guess
-				else if (guess.length() == 1) {
-					char[] letter = new char[guess.length()];
-					letter[0] = guess.charAt(0);
-					List<Integer> places = wordActions.guessLetter(letter[0]);
+    public static void main(String[] args) {
+    	try {
+	    	HangManPlayerServiceImpl service = new HangManPlayerServiceImpl();
+			String word = service.fetchEasyWords();
+			word_with_guesses = makeBlankWord(word);
+			GameplayFunctions wordActions = new GameplayFunctions (word);
+			
+			Boolean still_playing = true;
+			Boolean did_you_win = false;
+			
+			while (still_playing) {
+				if (guessQueue.size() > 0) {
+					String guess = guessQueue.poll();
 					
-					
-				}
-				else {
-					still_playing = false; //should never happen
+					//word guess
+					if (guess.length() > 1) {
+						did_you_win = wordActions.guessWord(guess);
+						if (did_you_win == false) {
+							incorrect_guesses += 1;
+						}
+					}
+					//letter guess
+					else if (guess.length() == 1) {
+						char[] letter = new char[guess.length()];
+						letter[0] = guess.charAt(0);
+						List<Integer> places = wordActions.guessLetter(letter[0]);
+						
+						//Did you guess correctly?
+						if (places.size() < 1) { //Wrong Guess!
+							incorrect_guesses += 1;
+						}
+						else { //Correct Guess!
+							word_with_guesses = fillInTheBlanks(word_with_guesses, word, places);
+							if (word_with_guesses.indexOf('_') == -1) {
+								did_you_win = true;
+							}
+						}
+						
+						if (incorrect_guesses >= 6) {
+							did_you_win = false;
+							still_playing = false;
+						}
+						
+						if (did_you_win == true) {
+							still_playing = false;
+						}
+					}
+					else {
+						still_playing = false; //should never happen
+					}
 				}
 			}
-		}
-		
-	}*/
+    	}
+    	catch (IOException ex){
+    		System.out.println("Error Occurred");
+    	}
+	}
 
 }
