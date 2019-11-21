@@ -68,6 +68,7 @@ public class HangManPlayerController {
    public void guessLetterOrWord(@RequestParam("letterOrWord") String letterOrWord,Model m) throws IOException{
 	  	   System.out.println("Guessed Letter is::"+letterOrWord);
 	  	 //   gf.guessLetterOrWord(letterOrWord, received, blankSpace);
+	  	   gm.newGuess(letterOrWord);
 	  	   
 	  	   
 	    
