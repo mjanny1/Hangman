@@ -40,6 +40,10 @@ public class HangManPlayerController {
     and giving the required blank space for the word to be guessed  */
    @RequestMapping(value="/singleUser", method = RequestMethod.GET)
     public String singleModeHome(Model m) throws IOException{
+	    Thread newGame = new Thread(new GameManager());
+	    newGame.start();
+	    
+	   
 	    String received=hmpService.fetchEasyWords();	    
 	    String blankSpace=  gm.makeBlankWord(received);
 	    m.addAttribute("word", blankSpace);

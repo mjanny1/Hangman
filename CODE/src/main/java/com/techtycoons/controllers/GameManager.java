@@ -17,7 +17,7 @@ import java.lang.StringBuilder;
  * Will be used for both single player and multiplayer.
  */
 @Component
-public class GameManager {
+public class GameManager implements Runnable {
 	static int incorrect_guesses;
 	String letters_guessed;
 	String[] words_guessed;
@@ -105,10 +105,10 @@ public class GameManager {
 	
 	
 	/*
-	 * Main
-	 * Game Manager Main function
+	 * Run
+	 * Game Manager Run function
 	 */
-    public static void main(String[] args) {
+    public void run() {
     	try {
 	    	HangManPlayerServiceImpl service = new HangManPlayerServiceImpl();
 			String word = service.fetchEasyWords();
