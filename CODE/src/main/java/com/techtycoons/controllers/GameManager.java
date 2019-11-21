@@ -106,8 +106,8 @@ public class GameManager implements Runnable {
 	}
 	
 	/*
-	 * Method: getWordWithGuesses
-	 * Used by the controller to get the filled out word with guesses
+	 * Method: getWord
+	 * Used by the controller to get the word we are playing with
 	 */
 	String getWord() {
 		return word;
