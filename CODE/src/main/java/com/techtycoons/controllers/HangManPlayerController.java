@@ -42,10 +42,10 @@ public class HangManPlayerController {
     public String singleModeHome(Model m) throws IOException{
 	    Thread newGame = new Thread(new GameManager());
 	    newGame.start();
-	    
-	   
-	    String received=hmpService.fetchEasyWords();	    
-	    String blankSpace=  gm.makeBlankWord(received);
+	    //String received=hmpService.fetchEasyWords();
+	    //String blankSpace=  gm.makeBlankWord(received);
+	    String blankSpace = gm.getWordWithGuesses();
+	    String received = gm.getWord();
 	    m.addAttribute("word", blankSpace);
 	    UserWord userWord = new UserWord("joyatee", received);
 	    List<UserWord> list = new ArrayList<UserWord>();
