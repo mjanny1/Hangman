@@ -40,8 +40,12 @@ public class HangManPlayerController {
     and giving the required blank space for the word to be guessed  */
    @RequestMapping(value="/singleUser", method = RequestMethod.GET)
     public String singleModeHome(Model m) throws IOException{
-	    String received=hmpService.fetchEasyWords();	    
-	    String blankSpace=  gm.makeBlankWord(received);
+	    Thread newGame = new Thread(new GameManager());
+	    newGame.start();
+	    //String received=hmpService.fetchEasyWords();
+	    //String blankSpace=  gm.makeBlankWord(received);
+	    String blankSpace = gm.getWordWithGuesses();
+	    String received = gm.getWord();
 	    m.addAttribute("word", blankSpace);
 	    UserWord userWord = new UserWord("joyatee", received);
 	    List<UserWord> list = new ArrayList<UserWord>();
@@ -64,6 +68,7 @@ public class HangManPlayerController {
    public void guessLetterOrWord(@RequestParam("letterOrWord") String letterOrWord,Model m) throws IOException{
 	  	   System.out.println("Guessed Letter is::"+letterOrWord);
 	  	 //   gf.guessLetterOrWord(letterOrWord, received, blankSpace);
+	  	   gm.newGuess(letterOrWord);
 	  	   
 	  	   
 	    

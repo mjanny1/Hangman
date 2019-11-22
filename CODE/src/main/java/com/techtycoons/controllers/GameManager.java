@@ -17,23 +17,25 @@ import java.lang.StringBuilder;
  * Will be used for both single player and multiplayer.
  */
 @Component
-public class GameManager {
+public class GameManager implements Runnable {
 	static int incorrect_guesses;
-	String letters_guessed;
-	String[] words_guessed;
+	static String letters_guessed;
+	static String[] words_guessed;
 	static Queue<String> guessQueue;
 	static String word_with_guesses;
+	static String word;
 	
 	
 	/*
 	 * Constructor: GameManager
 	 */
 	GameManager() {
-        this.incorrect_guesses = 0;
-        this.letters_guessed   = null;
-        this.words_guessed = new String[6]; //Max amount of word guesses can only be 6
-        this.guessQueue = new LinkedList<>();
-        this.word_with_guesses = null;
+        GameManager.incorrect_guesses = 0;
+        GameManager.letters_guessed   = null;
+        GameManager.words_guessed = new String[6]; //Max amount of word guesses can only be 6
+        GameManager.guessQueue = new LinkedList<>();
+        GameManager.word_with_guesses = null;
+        GameManager.word = null;
 	}
 	
 	/*
@@ -103,15 +105,23 @@ public class GameManager {
 		return word_with_guesses;
 	}
 	
+	/*
+	 * Method: getWord
+	 * Used by the controller to get the word we are playing with
+	 */
+	String getWord() {
+		return word;
+	}
+	
 	
 	/*
-	 * Main
-	 * Game Manager Main function
+	 * Run
+	 * Game Manager Run function
 	 */
-    public static void main(String[] args) {
+    public void run() {
     	try {
 	    	HangManPlayerServiceImpl service = new HangManPlayerServiceImpl();
-			String word = service.fetchEasyWords();
+			word = service.fetchEasyWords();
 			word_with_guesses = makeBlankWord(word);
 			GameplayFunctions wordActions = new GameplayFunctions (word);
 			
