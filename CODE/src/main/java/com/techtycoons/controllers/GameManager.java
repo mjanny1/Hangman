@@ -73,7 +73,7 @@ public class GameManager implements Runnable {
 	 public static String makeBlankWord(String word) {
 		StringBuilder blanks = new StringBuilder();
 		for (int i =0 ; i < word.length(); i++) {
-			blanks.append("_ ");
+			blanks.append("_");
 		}
 		return blanks.toString();
 	}
