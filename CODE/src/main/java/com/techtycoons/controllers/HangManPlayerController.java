@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.json.JSONException;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.*;
 import org.json.simple.parser.ParseException;

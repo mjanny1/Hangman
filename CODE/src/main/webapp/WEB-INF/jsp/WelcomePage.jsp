@@ -1,5 +1,5 @@
 <html>
-<body bgcolor="green">
+<body bgcolor="grey">
 	<h1 align="center" style="color: orange" >Welcome To HangMan</h1>
 	<h2 align="center" style="color: white">Choose your play mode</h2>
 	

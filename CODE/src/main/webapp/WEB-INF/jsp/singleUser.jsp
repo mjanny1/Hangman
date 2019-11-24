@@ -6,6 +6,8 @@
      <%@ include file="../css/menu.css"%>
 </style>
 <script>
+
+
 /* When the user clicks on the button, 
 toggle between hiding and showing the dropdown content */
 function myFunction() {
@@ -27,7 +29,7 @@ window.onclick = function(event) {
 }
 </script>
 </head>
-<body bgcolor="green">
+<body bgcolor="grey">
 <div class="dropdown">
   <button onclick="myFunction()" class="dropbtn">Main Menu</button>
   <div id="myDropdown" class="dropdown-content">
@@ -44,18 +46,20 @@ window.onclick = function(event) {
 
 <div style="border: 1px solid white;margin-top: 20px;" title="Hello" align="center">
 <h3>Number Of Guess Left</h3><input type="text" value="" disabled="disabled">
-<h3>Wrong Guesses</h3><input type="text" value="" disabled="disabled"></br></br>
+<h3>Wrong Guesses</h3><input type="text" value="${wrongGuess}" disabled="disabled"></br></br>
+<h3>Wrong Guesses</h3><input type="text" value="${wrongGuess}" disabled="disabled" hidden="true" name="wronguess"></br></br>
 </div>
 
 
 <div align="center" style="border: 1px solid white;margin-top: 20px;margin-bottom: 20px" >
 <h3>Guess Word:
 ${word}</h3>
+<input value=${word} name="modified1" hidden="true"/>
 
 
 <input type="text" name="letterOrWord">
 &nbsp&nbsp&nbsp&nbsp&nbsp
-<input type="submit" style="background-color: orange;color: white;" value="Enter Guessed Letter/word" >
+<input type="submit" style="background-color: orange;color: white;" value="Enter Guessed Letter/word"  >
 </div>
 </form>
 
