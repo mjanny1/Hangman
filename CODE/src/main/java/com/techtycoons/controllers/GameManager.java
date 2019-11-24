@@ -2,6 +2,8 @@ package com.techtycoons.controllers;
 
 import com.techtycoons.controllers.GameplayFunctions;
 import com.techtycoons.services.HangManPlayerServiceImpl;
+
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -73,13 +75,106 @@ public class GameManager implements Runnable {
 	 public static String makeBlankWord(String word) {
 		StringBuilder blanks = new StringBuilder();
 		for (int i =0 ; i < word.length(); i++) {
-			blanks.append("_");
+			blanks.append("-");
 		}
 		return blanks.toString();
 	}
 	 
 	 
-	
+	 //for entering letter or word from UI
+	 
+	 public String guessLetterOrWord(String letter,String Word,String blank)
+		{
+			
+			StringBuilder sb=null;
+			
+			char c = letter.charAt(0);
+			sb=new StringBuilder(blank);
+			if(Word.contains(letter))
+			{
+				if(letter.length()==1)
+				{
+					if (!sb.toString().equals(Word)) {
+			
+						for (int i = 0; i < Word.length(); i++)
+						{
+	               
+		                if (Word.charAt(i) == c)
+		                	{
+		                	sb.setCharAt(i, c);
+		                	
+		                	}
+		               	          		
+						}
+					
+						}
+			
+			
+					
+				}
+		}
+			else
+			{
+				sb=new StringBuilder(letter);
+				sb.append(letter+",");
+						//sb=sb.toString();
+				System.out.println("Wrong Guess:"+sb);
+			}
+			return sb.toString();
+		}
+	 
+	 
+	 public String enterLetterOrWord(String letter,String Word,String blank)
+	 {
+		 System.out.println("inside letteror word method"+letter+"::"+Word+"::"+blank);
+		 String answer = Word;
+	        StringBuilder userAnswer = new StringBuilder(blank);
+	        String guess=letter;
+	        
+
+	       while (!userAnswer.toString().equals(answer)) {
+
+	            //display blanks so user knows what they are looking for.
+	         //   System.out.println(userAnswer);
+
+	            //prompt user for a guess
+	           // System.out.print("Guess a letter: ");
+
+	            //store user response into variable "guess"
+	          //  guess = scanner.nextLine();
+
+	            //convert guess to char
+	            char c = guess.charAt(0);
+
+	            //loop through each letter in answer and search for the char from user's guess
+	            for (int i = 0; i < answer.length(); i++) {
+
+	                //if the letter at position i matches the user's guess then replace the dash
+	                if (answer.charAt(i) == c) {
+	                    userAnswer.setCharAt(i, c);
+	                }//end if statement
+	            }//end for loop
+	            System.out.println("NO NO NO!"+userAnswer.toString());
+	        }//end while loop
+
+	        System.out.println("Congrats, you won!"+userAnswer.toString());
+			return userAnswer.toString();
+
+	    }//end main
+	 
+	 
+	 
+	 
+	 
+	 
+	/* public String addChar(String str, char ch, int position) {
+		    int len = str.length();
+		    char[] updatedArr = new char[len + 1];
+		    str.getChars(0, position, updatedArr, 0);
+		    updatedArr[position] = ch;
+		    str.getChars(position, len, updatedArr, position + 1);
+		    return new String(updatedArr);
+		}
 	/*
 	 * Method: fillInTheBlanks
 	 * Used to fill in the blanks when a letter is correctly guessed
