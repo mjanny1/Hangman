@@ -45,7 +45,7 @@ window.onclick = function(event) {
 <h2>Score Board:</h2><textarea rows="4" cols="10" disabled="disabled"></textarea></br></br></div>
 
 <div style="border: 1px solid white;margin-top: 20px;" title="Hello" align="center">
-<h3>Number Of Guess Left</h3><input type="text" value="" disabled="disabled">
+<h3>Number Of Guess Left: ${numberOfGuessesLeft}</h3>
 <h3>Wrong Guesses</h3><input type="text" value="${wrongGuess}" disabled="disabled"></br></br>
 <h3>Wrong Guesses</h3><input type="text" value="${wrongGuess}" disabled="disabled" hidden="true" name="wronguess"></br></br>
 </div>
