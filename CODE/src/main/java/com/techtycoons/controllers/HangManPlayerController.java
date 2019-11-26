@@ -7,6 +7,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.*;
@@ -35,10 +36,6 @@ public class HangManPlayerController {
 	@Autowired
 	GameManager gm;
 	
-//	@Autowired
-//	GameplayFunctions gf;
-	
-	
 	
     @RequestMapping(value="/firstPage", method = RequestMethod.GET)
     public String viewHome(){
@@ -49,28 +46,37 @@ public class HangManPlayerController {
     and giving the required blank space for the word to be guessed  */
    @RequestMapping(value="/singleUser", method = RequestMethod.GET)
     public String singleModeHome(Model m) throws IOException{
-	    //Thread newGame = new Thread((Runnable) new GameManager());
-	    //newGame.start();
-	    //gm.run();
-	    String received=hmpService.fetchEasyWords();
-	    String blankSpace=  gm.makeBlankWord(received);
-	   // String blankSpace = gm.getWordWithGuesses();
-	    //String received = gm.getWord();
-	   // System.out.println("blankSpace:"+blankSpace+"received:"+received);
+   	    Thread newGame = new Thread((Runnable) gm);
+	    newGame.start();
+	    //Wait one second for the new game process and populate word
+	    try {
+			TimeUnit.SECONDS.sleep(1);
+		} catch (InterruptedException e) {
+			System.out.println("Error Occured in HanManPlayerController while Waiting!");
+		}
+	    String received = gm.getWord();
+	    System.out.println("Word we are playing with: " + received);
+	    
+	    String blankSpace=  gm.getWordWithGuesses();
+	    System.out.println("Blanks we are playing with: " + blankSpace);
 	    m.addAttribute("word", blankSpace);
+	    
+	    //Update Number of Guesses Remaining
+	  	int guessesLeft = gm.getNumberOfGuessesRemaining();
+	  	m.addAttribute("numberOfGuessesLeft", guessesLeft);
 	   
-	   UserWordAndBlank userWord = new UserWordAndBlank(received,blankSpace);
-	    List<UserWordAndBlank> list = new ArrayList<UserWordAndBlank>();
-	    
-	    list.add(userWord);
-	    
-	    JSONObject obj=new JSONObject();
-	    obj.put("received", received);
-		obj.put("blankSpace", blankSpace);
-		FileWriter file=new FileWriter("E:\\usersRandomWordsNew.json");
-		file.write(obj.toString());
-		file.flush();
-	    System.out.println("json object is::"+obj);
+//	   UserWordAndBlank userWord = new UserWordAndBlank(received,blankSpace);
+//	    List<UserWordAndBlank> list = new ArrayList<UserWordAndBlank>();
+//	    
+//	    list.add(userWord);
+//	    
+//	    JSONObject obj=new JSONObject();
+//	    obj.put("received", received);
+//		obj.put("blankSpace", blankSpace);
+//		FileWriter file=new FileWriter("E:\\usersRandomWordsNew.json");
+//		file.write(obj.toString());
+//		file.flush();
+//	    System.out.println("json object is::"+obj);
 	    
 	   // list.add(blankSpace);
 	   /* ObjectMapper Obj = new ObjectMapper(); 
@@ -87,45 +93,63 @@ public class HangManPlayerController {
 	    fout.close();*/
         return "singleUser";
     }
-   
-   @RequestMapping(value="/guessLetterOrWord", method = RequestMethod.POST)
-   public String guessLetterOrWord(Model t,@RequestParam("letterOrWord") String letterOrWord,@RequestParam("modified1") String modified1,Model m) throws IOException{
-	  	   System.out.println("Guessed Letter is::"+letterOrWord);
-	  	 String wordFetched=null;
-	  	String blankSpace=null;
-	  	String word,word1,word2=null;
 
-	  	 //   gf.guessLetterOrWord(letterOrWord, received, blankSpace);
-	  	   //gm.newGuess(letterOrWord);
-	  	  // gm.getWordWithGuesses();
-	  	   JSONParser parse=new JSONParser();
-	  	   
-	  	   try {
-	  		//   parse.parse(arg0)
-	  		 Object obj=parse.parse(new FileReader("E:\\usersRandomWordsNew.json"));
-			JSONObject json= (JSONObject) obj;
-			wordFetched=(String)json.get("received");
-			blankSpace=(String)json.get("blankSpace");
-			//System.out.println("Word is *******************"+wordFetched+"::blank Space is::"+blankSpace);
-			
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+@RequestMapping(value="/guessLetterOrWord", method = RequestMethod.POST)
+   public String guessLetterOrWord(Model t,@RequestParam("letterOrWord") String letterOrWord,@RequestParam("modified1") String modified1,Model m) throws IOException{
+	  	System.out.println("HangManPlayerController Guessed Letter: " + letterOrWord);
+	  	gm.newGuess(letterOrWord);
+	    //Wait one second for the new game process and populate word
+	    try {
+			TimeUnit.SECONDS.sleep(2);
+		} catch (InterruptedException e) {
+			System.out.println("Error Occured in HanManPlayerController while Waiting!");
 		}
-	  	  // System.out.println("modified1::"+modified1);
-	  	  //for(int i=0;i<=wordFetched.length();i++) {
-		word=gm.guessLetterOrWord(letterOrWord, wordFetched, blankSpace);
-		word1=gm.guessLetterOrWord(letterOrWord, wordFetched, modified1);
-	//	word2=gm.guessLetterOrWord(wronguess, wordFetched, modified1);
-		
-		
-		
-		
-		
-	  	  //}
-	  	  m.addAttribute("word", word);
-	  	  t.addAttribute("word", word1);
-	  	 // x.addAttribute("wrongGuess", word2);
+	    
+	    //Update Blanked Word
+	    String blankspace = gm.getWordWithGuesses();
+	    System.out.println("HangManPlayerController: Updated Blanked Word: " + blankspace);
+	  	m.addAttribute("word", blankspace);
+	  	
+	  	//Update Number of Guesses Remaining
+	  	int guessesLeft = gm.getNumberOfGuessesRemaining();
+	  	m.addAttribute("numberOfGuessesLeft", guessesLeft);
+	  	
+	  	
+//	  	String wordFetched=null;
+//	  	String blankSpace=null;
+//	  	String word,word1,word2=null;
+//
+//	  	 //   gf.guessLetterOrWord(letterOrWord, received, blankSpace);
+//	  	   //gm.newGuess(letterOrWord);
+//	  	  // gm.getWordWithGuesses();
+//	  	   JSONParser parse=new JSONParser();
+//	  	   
+//	  	   try {
+//	  		//   parse.parse(arg0)
+//	  		 Object obj=parse.parse(new FileReader("E:\\usersRandomWordsNew.json"));
+//			JSONObject json= (JSONObject) obj;
+//			wordFetched=(String)json.get("received");
+//			blankSpace=(String)json.get("blankSpace");
+//			//System.out.println("Word is *******************"+wordFetched+"::blank Space is::"+blankSpace);
+//			
+//		} catch (ParseException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//	  	  // System.out.println("modified1::"+modified1);
+//	  	  //for(int i=0;i<=wordFetched.length();i++) {
+//		word=gm.guessLetterOrWord(letterOrWord, wordFetched, blankSpace);
+//		word1=gm.guessLetterOrWord(letterOrWord, wordFetched, modified1);
+//	//	word2=gm.guessLetterOrWord(wronguess, wordFetched, modified1);
+//		
+//		
+//		
+//		
+//		
+//	  	  //}
+//	  	  m.addAttribute("word", word);
+//	  	  t.addAttribute("word", word1);
+//	  	 // x.addAttribute("wrongGuess", word2);
 	  	  
 		 return "singleUser";
    }

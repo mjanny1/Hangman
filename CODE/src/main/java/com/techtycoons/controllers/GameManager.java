@@ -4,9 +4,11 @@ import com.techtycoons.controllers.GameplayFunctions;
 import com.techtycoons.services.HangManPlayerServiceImpl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+import java.util.concurrent.TimeUnit;
 
 import org.springframework.stereotype.Component;
 
@@ -217,6 +219,7 @@ public class GameManager implements Runnable {
     	try {
 	    	HangManPlayerServiceImpl service = new HangManPlayerServiceImpl();
 			word = service.fetchEasyWords();
+			System.out.println("Device-Manager: Word: " + word);
 			word_with_guesses = makeBlankWord(word);
 			GameplayFunctions wordActions = new GameplayFunctions (word);
 			
@@ -224,47 +227,64 @@ public class GameManager implements Runnable {
 			Boolean did_you_win = false;
 			
 			while (still_playing) {
+			    try {
+					TimeUnit.MILLISECONDS.sleep(100);
+				} catch (InterruptedException e) {
+					System.out.println("Error Occured in GameManager while Waiting!");
+				}
 				if (guessQueue.size() > 0) {
 					String guess = guessQueue.poll();
+					System.out.println("GameManager: Received Guess " + guess);
 					
 					//word guess
 					if (guess.length() > 1) {
 						did_you_win = wordActions.guessWord(guess);
+						System.out.println("Did you win?" + did_you_win);
 						if (did_you_win == false) {
 							incorrect_guesses += 1;
 						}
 					}
 					//letter guess
 					else if (guess.length() == 1) {
+						System.out.println("GameManager: Letter Guess!");
 						char[] letter = new char[guess.length()];
 						letter[0] = guess.charAt(0);
+						String s = String.valueOf(letter[0]);
+						System.out.println("Letter Getting Guessed: " + s);
 						List<Integer> places = wordActions.guessLetter(letter[0]);
+						System.out.println(Arrays.toString(places.toArray()));
 						
 						//Did you guess correctly?
 						if (places.size() < 1) { //Wrong Guess!
+							System.out.println("GameManager: Incorrect Guess!");
 							incorrect_guesses += 1;
 						}
 						else { //Correct Guess!
+							System.out.println("GameManager: Correct Guess!");
 							word_with_guesses = fillInTheBlanks(word_with_guesses, word, places);
-							if (word_with_guesses.indexOf('_') == -1) {
+							if (word_with_guesses.indexOf('-') == -1) {
 								did_you_win = true;
 							}
-						}
-						
-						if (incorrect_guesses >= 6) {
-							did_you_win = false;
-							still_playing = false;
-						}
-						
-						if (did_you_win == true) {
-							still_playing = false;
 						}
 					}
 					else {
 						still_playing = false; //should never happen
 					}
+					
+					//See if you won
+					if (incorrect_guesses >= 6) {
+						did_you_win = false;
+						still_playing = false;
+						System.out.println("GameManager: You Lost!");
+					}
+					
+					if (did_you_win == true) {
+						still_playing = false;
+						System.out.println("GameManager: You Won!");
+					}
 				}
 			}
+			System.out.println("Game Over!");
     	}
     	catch (IOException ex){
     		System.out.println("Error Occurred");
