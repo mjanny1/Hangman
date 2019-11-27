@@ -28,6 +28,7 @@ public class GameManager implements Runnable {
 	static Queue<String> guessQueue;
 	static String word_with_guesses;
 	static String word;
+	static String all_guesses;
 	
 	
 	/*
@@ -40,6 +41,7 @@ public class GameManager implements Runnable {
         GameManager.guessQueue = new LinkedList<>();
         GameManager.word_with_guesses = null;
         GameManager.word = null;
+        GameManager.all_guesses = "";
 	}
 	
 	/*
@@ -66,6 +68,14 @@ public class GameManager implements Runnable {
 	 */
 	void newGuess(String guess) {
 		guessQueue.add(guess);
+		all_guesses = all_guesses + guess + ",";
+	}
+	
+	/* Method: getGuesses
+	 * Used for the controller to send all guesses to the guess queue
+	 */
+	String getGuesses() {
+		return all_guesses;
 	}
 	
 	/*
@@ -210,6 +220,14 @@ public class GameManager implements Runnable {
 		return word;
 	}
 	
+	/*
+	 * Method: newGame()
+	 * Used to reset game statistics like previous guesses
+	 */
+	void newGame() {
+		all_guesses = "";
+		incorrect_guesses = 0;
+	}
 	
 	/*
 	 * Run
@@ -217,6 +235,7 @@ public class GameManager implements Runnable {
 	 */
     public void run() {
     	try {
+    		newGame();
 	    	HangManPlayerServiceImpl service = new HangManPlayerServiceImpl();
 			word = service.fetchEasyWords();
 			System.out.println("Device-Manager: Word: " + word);

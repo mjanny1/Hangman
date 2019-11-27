@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class GameplayFunctions {
 	
-	private String word = "tester";
+	private String word;
 	private String lettersUsed = null;
 	private List<Integer> matchHere = new ArrayList<Integer>();
 	
