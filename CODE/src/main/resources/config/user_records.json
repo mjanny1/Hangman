@@ -1,0 +1,14 @@
+{
+    "mattj": {
+        "wins" : 0,
+        "losses" : 0
+    },
+    "testuser1": {
+        "wins" : 0,
+        "losses" : 0
+    },
+    "testuser2": {
+        "wins" : 0,
+        "losses" : 0
+    }
+}
