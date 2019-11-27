@@ -29,6 +29,8 @@ public class GameManager implements Runnable {
 	static String word_with_guesses;
 	static String word;
 	static String all_guesses;
+	static String lastGuess;
+	static String gameStatus;
 	
 	
 	/*
@@ -42,6 +44,8 @@ public class GameManager implements Runnable {
         GameManager.word_with_guesses = null;
         GameManager.word = null;
         GameManager.all_guesses = "";
+        GameManager.lastGuess = null;
+        GameManager.gameStatus = null;
 	}
 	
 	/*
@@ -72,10 +76,17 @@ public class GameManager implements Runnable {
 	}
 	
 	/* Method: getGuesses
-	 * Used for the controller to send all guesses to the guess queue
+	 * Used for the controller to get the list of guesses already used
 	 */
 	String getGuesses() {
 		return all_guesses;
+	}
+	
+	/* Method: getStatus
+	 * Used for the controller to get the latest game status message
+	 */
+	String getStatus() {
+		return gameStatus;
 	}
 	
 	/*
@@ -227,6 +238,7 @@ public class GameManager implements Runnable {
 	void newGame() {
 		all_guesses = "";
 		incorrect_guesses = 0;
+		gameStatus = "New Game! Welcome!";
 	}
 	
 	/*
@@ -261,6 +273,7 @@ public class GameManager implements Runnable {
 						System.out.println("Did you win?" + did_you_win);
 						if (did_you_win == false) {
 							incorrect_guesses += 1;
+							gameStatus = lastGuess + " is Incorrect!";
 						}
 					}
 					//letter guess
@@ -273,14 +286,16 @@ public class GameManager implements Runnable {
 						List<Integer> places = wordActions.guessLetter(letter[0]);
 						System.out.println(Arrays.toString(places.toArray()));
 						
-						//Did you guess correctly?
-						if (places.size() < 1) { //Wrong Guess!
+						//Wrong Guess
+						if (places.size() < 1) {
 							System.out.println("GameManager: Incorrect Guess!");
 							incorrect_guesses += 1;
+							gameStatus = lastGuess + " is Incorrect!";
 						}
 						else { //Correct Guess!
 							System.out.println("GameManager: Correct Guess!");
 							word_with_guesses = fillInTheBlanks(word_with_guesses, word, places);
+							gameStatus = lastGuess + " is Correct!";
 							if (word_with_guesses.indexOf('-') == -1) {
 								did_you_win = true;
 							}
@@ -295,11 +310,13 @@ public class GameManager implements Runnable {
 						did_you_win = false;
 						still_playing = false;
 						System.out.println("GameManager: You Lost!");
+						gameStatus = "Sorry! You Lost!";
 					}
 					
 					if (did_you_win == true) {
 						still_playing = false;
 						System.out.println("GameManager: You Won!");
+						gameStatus = "You Win!!";
 					}
 				}
 			}
