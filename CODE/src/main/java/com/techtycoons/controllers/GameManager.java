@@ -72,6 +72,7 @@ public class GameManager implements Runnable {
 	 */
 	void newGuess(String guess) {
 		guessQueue.add(guess);
+		lastGuess = guess;
 		all_guesses = all_guesses + guess + ",";
 	}
 	
