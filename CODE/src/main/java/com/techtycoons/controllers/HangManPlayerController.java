@@ -57,6 +57,7 @@ public class HangManPlayerController {
 	    String received = gm.getWord();
 	    System.out.println("Word we are playing with: " + received);
 	    
+	    //Update the blanked out word we are trying to guess
 	    String blankSpace=  gm.getWordWithGuesses();
 	    System.out.println("Blanks we are playing with: " + blankSpace);
 	    m.addAttribute("word", blankSpace);
@@ -100,7 +101,7 @@ public class HangManPlayerController {
 	  	gm.newGuess(letterOrWord);
 	    //Wait one second for the new game process and populate word
 	    try {
-			TimeUnit.SECONDS.sleep(2);
+			TimeUnit.SECONDS.sleep(1);
 		} catch (InterruptedException e) {
 			System.out.println("Error Occured in HanManPlayerController while Waiting!");
 		}
