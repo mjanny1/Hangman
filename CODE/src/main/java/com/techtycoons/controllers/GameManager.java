@@ -3,7 +3,6 @@ package com.techtycoons.controllers;
 import com.techtycoons.controllers.GameplayFunctions;
 import com.techtycoons.services.HangManPlayerServiceImpl;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -309,6 +308,8 @@ public class GameManager implements Runnable {
 								did_you_win = true;
 							}
 						}
+						//Reset List after every guess
+						places.clear();
 					}
 					else {
 						still_playing = false; //should never happen
