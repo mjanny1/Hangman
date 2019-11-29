@@ -1,15 +1,12 @@
-{
-    "username" : "mattj",
-    "wins" : 0,
-    "losses" : 0
-},
-{
-    "username" : "user1",
-    "wins" : 0,
-    "losses" : 0
-},
-{
-    "username" : "user2",
-    "wins" : 0,
-    "losses" : 0
-}
+[
+    {
+        "username": "mattj",
+        "wins": 1,
+        "losses": 2
+    },
+    {
+        "username": "user1",
+        "wins": 3,
+        "losses": 4
+    }
+]
