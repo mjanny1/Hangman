@@ -59,6 +59,14 @@ public class GameManager implements Runnable {
 	}
 	
 	/*
+	 * Method: getNumberOfIncorrectGuesses
+	 * Used mainly for the controller to input incorrect guesses into HangmanFigure Updater
+	 */
+	int getNumberOfIncorrectGuesses() {
+		return incorrect_guesses;
+	}
+	
+	/*
 	 * Method: getLettersGuessed
 	 * Used for the controller to display the list of letters already guessed
 	 */

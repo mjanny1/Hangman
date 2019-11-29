@@ -26,6 +26,8 @@ import com.fasterxml.jackson.databind.jsonFormatVisitors.JsonObjectFormatVisitor
 import com.techtycoons.model.UserWord;
 import com.techtycoons.model.UserWordAndBlank;
 import com.techtycoons.services.HangManPlayerService;
+import com.techtycoons.services.HangmanFigure;
+import com.techtycoons.services.UserDataHandler;
  
 @Controller
 public class HangManPlayerController {
@@ -65,6 +67,18 @@ public class HangManPlayerController {
 	    //Update Number of Guesses Remaining
 	  	int guessesLeft = gm.getNumberOfGuessesRemaining();
 	  	m.addAttribute("numberOfGuessesLeft", guessesLeft);
+	  	
+	  	//Update the scoreboard with the User's all time record
+	  	UserDataHandler dataHandler = new UserDataHandler();
+	  	String scoreboard = dataHandler.getUserRecord("user1"); //using "user1" right now as an example. should be populated with actual username
+	  	
+	  	
+	  	//Update Hangman Figure
+	  	HangmanFigure.populateFigure(gm.getNumberOfIncorrectGuesses());
+	  	
+	  	
+	  	
+	  	
 	   
 //	   UserWordAndBlank userWord = new UserWordAndBlank(received,blankSpace);
 //	    List<UserWordAndBlank> list = new ArrayList<UserWordAndBlank>();
@@ -114,6 +128,9 @@ public class HangManPlayerController {
 	  	//Update Number of Guesses Remaining
 	  	int guessesLeft = gm.getNumberOfGuessesRemaining();
 	  	m.addAttribute("numberOfGuessesLeft", guessesLeft);
+	  	
+	    //Update Hangman Figure
+	  	HangmanFigure.populateFigure(gm.getNumberOfIncorrectGuesses());
 	  	
 	  	
 //	  	String wordFetched=null;

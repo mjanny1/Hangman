@@ -11,7 +11,7 @@ public class UserDataHandler {
 	/*
 	 * Constructor
 	 */
-	UserDataHandler()
+	public UserDataHandler()
 	{
 		userObject = null;
 	}
@@ -20,14 +20,13 @@ public class UserDataHandler {
 	 * Method: getUserRecord
 	 * Used by the controller to get the User's all-time score record
 	 */
-	String getUserRecord(String username) {
+	public String getUserRecord(String username) {
 		String userRecord = null;
 		try {
 			userObject = null;
 			JSONParser parser = new JSONParser();
 			FileReader file = new FileReader("../../../../resources/config/user_records.json");
 			Object obj = parser.parse(file);
-			//JSONObject jobj = (JSONObject) obj;
 			JSONArray userData = (JSONArray) obj;
 			userData.forEach( user -> findUsername(username, (JSONObject) user) );
 			
