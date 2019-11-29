@@ -11,7 +11,7 @@ public class UserDataHandler {
 	/*
 	 * Constructor
 	 */
-	UserDataHandler()
+	public UserDataHandler()
 	{
 		userObject = null;
 	}
