@@ -3,11 +3,13 @@ package com.techtycoons.services;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.springframework.stereotype.Component;
 import org.springframework.util.ResourceUtils;
 
 import java.io.File;
 import java.io.FileReader;
 
+@Component
 public class UserDataHandler {
 	static JSONObject userObject;
 	

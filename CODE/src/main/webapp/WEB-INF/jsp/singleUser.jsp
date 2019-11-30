@@ -38,32 +38,29 @@ window.onclick = function(event) {
     <a href="#contact">Quit</a>
   </div>
 </div>
+
 <form action="/HangManTechTycoons/guessLetterOrWord.html" method="post">
+
 <h1 style="color: orange;" align="center">Welcome To HangMan,Lets Start The Game </h1>
 <h2 style="color: white" align="center">Single User Mode</h2>
 <div align="center" style="border: 1px solid white;">
-<h2>Score Board:</h2><textarea rows="4" cols="10" disabled="disabled"></textarea></br></br></div>
+<h2>Score Board:</h2><textarea rows="4" cols="10" disabled="disabled" name="currentScore">${scoreboard}</textarea></br></br></div>
 
 <div style="border: 1px solid white;margin-top: 20px;" title="Hello" align="center">
 <h3>Number Of Guess Left: ${numberOfGuessesLeft}</h3>
-<h3>Wrong Guesses</h3><input type="text" value="${wrongGuess}" disabled="disabled"></br></br>
-<h3>Wrong Guesses</h3><input type="text" value="${wrongGuess}" disabled="disabled" hidden="true" name="wronguess"></br></br>
+<h3>Letters Guessed Aready</h3><input type="text" value="${allGuess}" disabled="disabled"></br></br>
 </div>
 
 
 <div align="center" style="border: 1px solid white;margin-top: 20px;margin-bottom: 20px" >
-<h3>Guess Word:
-${word}</h3>
+<h3>Guess Word:${word}</h3>
 <input value=${word} name="modified1" hidden="true"/>
-
-
 <input type="text" name="letterOrWord">
+<input type="submit" style="background-color: orange;color: white;" value="Enter Guessed Letter/word"  / >
 &nbsp&nbsp&nbsp&nbsp&nbsp
-<input type="submit" style="background-color: orange;color: white;" value="Enter Guessed Letter/word"  >
+</div><div>
+<input type="button" style="background-color: orange;color: white;" value="Back"  onclick="window.location='firstPage.html'"/ >
 </div>
 </form>
-
-
-
 </body>
 </html>

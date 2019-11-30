@@ -18,6 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -38,11 +39,27 @@ public class HangManPlayerController {
 	@Autowired
 	GameManager gm;
 	
+	@Autowired
+	UserDataHandler dataHandler;
 	
     @RequestMapping(value="/firstPage", method = RequestMethod.GET)
     public String viewHome(){
         return "WelcomePage";
     }
+    
+
+    @RequestMapping(value="/statusWin", method = RequestMethod.GET)
+    public String winStatusPage(){    	
+   	System.out.println("Inside status");
+        return "statusWin";
+    }
+    
+    @RequestMapping(value="/statusLost", method = RequestMethod.GET)
+    public String lostStatusPage(){    	
+   	System.out.println("Inside status");
+        return "statusLost";
+    }
+    
     
     /*Method for bringing the single user game play webpage
     and giving the required blank space for the word to be guessed  */
@@ -69,50 +86,23 @@ public class HangManPlayerController {
 	  	m.addAttribute("numberOfGuessesLeft", guessesLeft);
 	  	
 	  	//Update the scoreboard with the User's all time record
-	  	UserDataHandler dataHandler = new UserDataHandler();
+	  //	UserDataHandler dataHandler = new UserDataHandler();
 	  	String scoreboard = dataHandler.getUserRecord("user1"); //using "user1" right now as an example. should be populated with actual username
-	  	
+	  	System.out.println("Score is::"+scoreboard);
+	  	m.addAttribute("scoreboard", scoreboard);
 	  	
 	  	//Update Hangman Figure
 	  	HangmanFigure.populateFigure(gm.getNumberOfIncorrectGuesses());
-	  	
-	  	
-	  	
-	  	
-	   
-//	   UserWordAndBlank userWord = new UserWordAndBlank(received,blankSpace);
-//	    List<UserWordAndBlank> list = new ArrayList<UserWordAndBlank>();
-//	    
-//	    list.add(userWord);
-//	    
-//	    JSONObject obj=new JSONObject();
-//	    obj.put("received", received);
-//		obj.put("blankSpace", blankSpace);
-//		FileWriter file=new FileWriter("E:\\usersRandomWordsNew.json");
-//		file.write(obj.toString());
-//		file.flush();
-//	    System.out.println("json object is::"+obj);
-	    
-	   // list.add(blankSpace);
-	   /* ObjectMapper Obj = new ObjectMapper(); 
-	    
-	    String jsonStr = Obj.writeValueAsString(list); 
-	    
-        // Displaying JSON String 
-        System.out.println(jsonStr); 
-	    
-	    File file = new File("E:\\usersRandomWordsq.json");
-	    
-	    FileOutputStream fout = new FileOutputStream(file, true);
-	    fout.write(jsonStr.getBytes());
-	    fout.close();*/
         return "singleUser";
     }
 
 @RequestMapping(value="/guessLetterOrWord", method = RequestMethod.POST)
-   public String guessLetterOrWord(Model t,@RequestParam("letterOrWord") String letterOrWord,@RequestParam("modified1") String modified1,Model m) throws IOException{
+   public String guessLetterOrWord(RedirectAttributes redirectAttributes, Model t,@RequestParam("letterOrWord") String letterOrWord,@RequestParam("modified1") String modified1,Model m) throws IOException{
 	  	System.out.println("HangManPlayerController Guessed Letter: " + letterOrWord);
 	  	gm.newGuess(letterOrWord);
+	  //	System.out.println("current score is::"+currentScore);
+	  	String scoreboard = dataHandler.getUserRecord("user1");
+	  	m.addAttribute("scoreboard", scoreboard);
 	    //Wait one second for the new game process and populate word
 	    try {
 			TimeUnit.SECONDS.sleep(1);
@@ -129,54 +119,38 @@ public class HangManPlayerController {
 	  	int guessesLeft = gm.getNumberOfGuessesRemaining();
 	  	m.addAttribute("numberOfGuessesLeft", guessesLeft);
 	  	
+	  	//Get all the guesses made by user
+	  	String allGuess=gm.getGuesses();
+	  	System.out.println("All Guess::"+allGuess);
+	  	m.addAttribute("allGuess",allGuess);
+	  	
+	  	//show status
+	  	String status=gm.getStatus();
+	  	m.addAttribute("status",status);
+	  	
+	  	//fetch the final value of status and redirected to win page or lost page
+	  	if(status.equalsIgnoreCase("You Win!!"))
+	  	{
+	  				redirectAttributes.addFlashAttribute("currentScore",scoreboard);
+	  				return "redirect:statusWin";
+	  	}
+	  	if(status.equalsIgnoreCase("Sorry! You Lost!"))
+	  	{
+	  					  				
+	  				return "redirect:statusLost";
+	  	}
+	  	
+	  	
+	  	
 	    //Update Hangman Figure
 	  	HangmanFigure.populateFigure(gm.getNumberOfIncorrectGuesses());
-	  	
-	  	
-//	  	String wordFetched=null;
-//	  	String blankSpace=null;
-//	  	String word,word1,word2=null;
-//
-//	  	 //   gf.guessLetterOrWord(letterOrWord, received, blankSpace);
-//	  	   //gm.newGuess(letterOrWord);
-//	  	  // gm.getWordWithGuesses();
-//	  	   JSONParser parse=new JSONParser();
-//	  	   
-//	  	   try {
-//	  		//   parse.parse(arg0)
-//	  		 Object obj=parse.parse(new FileReader("E:\\usersRandomWordsNew.json"));
-//			JSONObject json= (JSONObject) obj;
-//			wordFetched=(String)json.get("received");
-//			blankSpace=(String)json.get("blankSpace");
-//			//System.out.println("Word is *******************"+wordFetched+"::blank Space is::"+blankSpace);
-//			
-//		} catch (ParseException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//	  	  // System.out.println("modified1::"+modified1);
-//	  	  //for(int i=0;i<=wordFetched.length();i++) {
-//		word=gm.guessLetterOrWord(letterOrWord, wordFetched, blankSpace);
-//		word1=gm.guessLetterOrWord(letterOrWord, wordFetched, modified1);
-//	//	word2=gm.guessLetterOrWord(wronguess, wordFetched, modified1);
-//		
-//		
-//		
-//		
-//		
-//	  	  //}
-//	  	  m.addAttribute("word", word);
-//	  	  t.addAttribute("word", word1);
-//	  	 // x.addAttribute("wrongGuess", word2);
 	  	  
 		 return "singleUser";
    }
-	  	  //  gf.guessLetterOrWord(letterOrWord, received, blankSpace);
-	  	 //  gm.fillInTheBlanks(letterOrWord, word, spots)
-
+	  	 
 	  	   
-	  	   
+}	   
 	    
-   }
+   
     
  
