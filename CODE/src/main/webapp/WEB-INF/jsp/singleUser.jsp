@@ -49,11 +49,13 @@ window.onclick = function(event) {
 <div style="border: 1px solid white;margin-top: 20px;" title="Hello" align="center">
 <h3>Number Of Guess Left: ${numberOfGuessesLeft}</h3>
 <h3>Letters Guessed Aready</h3><input type="text" value="${allGuess}" disabled="disabled"></br></br>
+<h2>${status}</h2>
 </div>
 
 
 <div align="center" style="border: 1px solid white;margin-top: 20px;margin-bottom: 20px" >
 <h3>Guess Word:${word}</h3>
+
 <input value=${word} name="modified1" hidden="true"/>
 <input type="text" name="letterOrWord">
 <input type="submit" style="background-color: orange;color: white;" value="Enter Guessed Letter/word"  / >
