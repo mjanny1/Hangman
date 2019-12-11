@@ -47,6 +47,17 @@ public class HangManPlayerController {
         return "WelcomePage";
     }
     
+    @RequestMapping(value="/login", method = RequestMethod.GET)
+    public String loginPage(){
+        return "login";
+    }
+    
+    @RequestMapping(value="/submitForm", method = RequestMethod.GET)
+    public String viewHomeFirst(Model m,@RequestParam("username") String username){
+    	m.addAttribute("username",username);
+        return "WelcomePage";
+    }
+    
 
     @RequestMapping(value="/statusWin", method = RequestMethod.GET)
     public String winStatusPage(){    	
@@ -143,7 +154,9 @@ public class HangManPlayerController {
 	  	
 	  	
 	    //Update Hangman Figure
-	  	HangmanFigure.populateFigure(gm.getNumberOfIncorrectGuesses());
+//	  	List lst=HangmanFigure.populateFigureTest(gm.getNumberOfIncorrectGuesses());
+//	  	
+//	  	m.addAttribute("figure",lst);
 	  	  
 		 return "singleUser";
    }
