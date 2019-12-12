@@ -53,8 +53,6 @@ public class HangManPlayerController {
     
     @RequestMapping(value="/login", method = RequestMethod.GET)
     public String loginPage(Model m){
-    	String loginMessage = loginHandler.getStatusMessage();
-    	m.addAttribute("loginStatus", loginMessage);
         return "login";
     }
     
@@ -62,11 +60,13 @@ public class HangManPlayerController {
     public String viewHomeFirst(Model m,@RequestParam("username") String username,
     		                            @RequestParam("password") String password){
     	boolean loginAcceptance = loginHandler.checkCredentials(username, password);
+    	String loginMessage = loginHandler.getStatusMessage();
     	if (loginAcceptance) {
         	m.addAttribute("username",username);
             return "WelcomePage";
     	}
     	else {
+    		m.addAttribute("loginStatus", loginMessage);
     		return "login";
     	}
     }
