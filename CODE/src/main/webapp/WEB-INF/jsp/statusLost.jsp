@@ -10,8 +10,8 @@
 <form>
 <div align="center">
 <h1 align="center" style="color: orange">Sorry !!!!!You Lost!!!! </h1>
-<h2><input type="button" value="Continue Playing ?" onclick="window.location='firstPage.html'" style="background-color: orange;color: white;width: 200px;"/>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-<input type="button" value="Exit the Game" onclick="window.location='exit.html'" style="background-color: orange;color: white;width: 200px"/></h2>
+<h2><input type="button" value="Continue Playing ?" onclick="window.location='singleUser.html'" style="background-color: orange;color: white;width: 200px;"/>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+<input type="button" value="Exit the Game" onclick="window.location='firstPage.html'" style="background-color: orange;color: white;width: 200px"/></h2>
 </div>
 </form>
 </body>
