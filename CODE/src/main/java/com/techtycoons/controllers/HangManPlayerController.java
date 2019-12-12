@@ -29,6 +29,7 @@ import com.techtycoons.model.UserWordAndBlank;
 import com.techtycoons.services.HangManPlayerService;
 import com.techtycoons.services.HangmanFigure;
 import com.techtycoons.services.UserDataHandler;
+import com.techtycoons.services.Login;
  
 @Controller
 public class HangManPlayerController {
@@ -42,20 +43,32 @@ public class HangManPlayerController {
 	@Autowired
 	UserDataHandler dataHandler;
 	
+	@Autowired
+	Login loginHandler;
+	
     @RequestMapping(value="/firstPage", method = RequestMethod.GET)
     public String viewHome(){
         return "WelcomePage";
     }
     
     @RequestMapping(value="/login", method = RequestMethod.GET)
-    public String loginPage(){
+    public String loginPage(Model m){
         return "login";
     }
     
     @RequestMapping(value="/submitForm", method = RequestMethod.GET)
-    public String viewHomeFirst(Model m,@RequestParam("username") String username){
-    	m.addAttribute("username",username);
-        return "WelcomePage";
+    public String viewHomeFirst(Model m,@RequestParam("username") String username,
+    		                            @RequestParam("password") String password){
+    	boolean loginAcceptance = loginHandler.checkCredentials(username, password);
+    	String loginMessage = loginHandler.getStatusMessage();
+    	if (loginAcceptance) {
+        	m.addAttribute("username",username);
+            return "WelcomePage";
+    	}
+    	else {
+    		m.addAttribute("loginStatus", loginMessage);
+    		return "login";
+    	}
     }
     
 

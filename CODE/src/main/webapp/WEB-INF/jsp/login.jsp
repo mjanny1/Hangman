@@ -20,5 +20,8 @@
 <div align="center"><input type="submit" value="Submit" style="background-color: orange;color: white;width: 60px"></div>
 </form>
 </div>
+<div style="border: 1px solid white;margin-top: 20px;" title="Hello" align="center">
+<h3> ${loginStatus}</h3>
+</div>
 </body>
 </html>

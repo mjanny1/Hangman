@@ -8,18 +8,21 @@ import org.springframework.util.ResourceUtils;
 
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 
 @Component
 public class UserDataHandler {
 	static JSONObject userObject;
+	private FileWriter file;
+	static Object obj;
 	
-	/*
-	 * Constructor
-	 */
-	public UserDataHandler()
-	{
-		userObject = null;
-	}
+//	/*
+//	 * Constructor
+//	 */
+//	public UserDataHandler()
+//	{
+//		userObject = null;
+//	}
 	
 	/*
 	 * Method: getUserRecord
@@ -33,8 +36,7 @@ public class UserDataHandler {
 			String filePath = ResourceUtils.getFile("classpath:config/user_records.json").getAbsolutePath();
 			System.out.println("Record File Path = " + filePath);
 			FileReader file = new FileReader(filePath);
-			Object obj = parser.parse(file);
-			//JSONObject userData = (JSONObject) obj;
+			obj = parser.parse(file);
 			JSONArray userData = (JSONArray) obj;
 			userData.forEach( user -> findUsername(username, (JSONObject) user) );
 			
@@ -46,7 +48,7 @@ public class UserDataHandler {
 			{
 				long wins = (long) userObject.get("wins");
 				long losses = (long) userObject.get("losses");
-				userRecord = "Record: " + Long.toString(wins) + "-" + Long.toString(losses);
+				userRecord = Long.toString(wins) + "-" + Long.toString(losses);
 				System.out.println(userRecord);
 			}
 		}
@@ -73,5 +75,27 @@ public class UserDataHandler {
 			userObject = null;
 		}
 		
+	}
+	
+	/*
+	 * Method: recordWin
+	 * Updates the user's record after a win
+	 */
+	public void recordWin() {
+		long wins = (long) userObject.get("wins");
+		wins++;
+		userObject.put("wins", wins);
+		
+		try {
+			String filePath = ResourceUtils.getFile("classpath:config/user_records.json").getAbsolutePath();
+			file = new FileWriter(filePath);
+		    file.write(userObject.toJSONString());
+			System.out.println("Successfully Copied JSON Object to File... " + filePath);
+			System.out.println("\nJSON Object: " + userObject);
+			file.close();
+		}
+		catch (Exception e) {
+			System.out.println("Exception Occurred while recording win: " + e);
+		}
 	}
 }

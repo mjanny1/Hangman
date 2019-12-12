@@ -1,11 +1,13 @@
 [
     {
         "username": "mattj",
+        "password": "password",
         "wins": 1,
         "losses": 2
     },
     {
         "username": "user1",
+        "password": "password",
         "wins": 3,
         "losses": 4
     }
