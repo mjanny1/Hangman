@@ -2,6 +2,7 @@ package com.techtycoons.controllers;
 
 import com.techtycoons.controllers.GameplayFunctions;
 import com.techtycoons.services.HangManPlayerServiceImpl;
+import com.techtycoons.services.UserDataHandler;
 
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -261,6 +262,7 @@ public class GameManager implements Runnable {
 			System.out.println("Device-Manager: Word: " + word);
 			word_with_guesses = makeBlankWord(word);
 			GameplayFunctions wordActions = new GameplayFunctions (word);
+			UserDataHandler jsonWriter = new UserDataHandler();
 			
 			Boolean still_playing = true;
 			Boolean did_you_win = false;
@@ -327,6 +329,8 @@ public class GameManager implements Runnable {
 						still_playing = false;
 						System.out.println("GameManager: You Won!");
 						gameStatus = "You Win!!";
+						//removed the following line becuase it's not working yet
+						//jsonWriter.recordWin();
 					}
 				}
 			}
